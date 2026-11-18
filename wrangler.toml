@@ -1,0 +1,10 @@
+name = "staywildgo"
+compatibility_date = "2026-11-17"
+workers_dev = true
+
+routes = [
+  { pattern = "staywildgo.com", custom_domain = true },
+]
+
+[assets]
+directory = "./dist"

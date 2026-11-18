@@ -1,0 +1,75 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { PRIVACY } from "@consts";
+---
+
+<Layout title={PRIVACY.TITLE} description={PRIVACY.DESCRIPTION}>
+  <div class="page-shell">
+    <Container>
+      <Breadcrumbs items={[{ label: "Privacy Policy" }]} />
+      <article class="article-shell animate">
+        <header class="article-hero">
+          <h1>Privacy Policy</h1>
+          <p class="mt-4 max-w-2xl leading-7 text-[var(--muted)]">
+            Last updated: November 17, 2026. StayWildGo is a small,
+            independent outdoor site. We collect almost nothing, and this page
+            says exactly what that means.
+          </p>
+        </header>
+
+        <h2>What we collect</h2>
+        <p>
+          We do not run analytics, advertising trackers, or third-party
+          cookies on this site. We do not ask you to create an account, and
+          there is no newsletter signup that stores your address. The only
+          information we ever receive from you is what you choose to send us
+          by email.
+        </p>
+
+        <h2>Theme preference</h2>
+        <p>
+          If you switch between light and dark mode, your choice is saved in
+          your own browser's local storage. It never leaves your device, and
+          clearing your browser data removes it.
+        </p>
+
+        <h2>Site search</h2>
+        <p>
+          The search box runs entirely in your browser (Pagefind). Your
+          search terms are not sent to us or to any third party.
+        </p>
+
+        <h2>Email</h2>
+        <p>
+          If you email us at hello@staywildgo.com, we use your message only
+          to reply to you. We do not share, sell, or rent email addresses,
+          and we do not add you to any list.
+        </p>
+
+        <h2>Hosting</h2>
+        <p>
+          This site is hosted on Cloudflare. Like any web host, Cloudflare
+          may log standard server data (such as IP addresses and requested
+          pages) for security and reliability. We do not receive or use those
+          logs for tracking.
+        </p>
+
+        <h2>Links to other sites</h2>
+        <p>
+          Our articles link to outside sites (manufacturers, parks services,
+          retailers). Their privacy practices are their own; check their
+          policies before sharing personal information with them.
+        </p>
+
+        <h2>Changes</h2>
+        <p>
+          If this policy changes — for example, if we add analytics or
+          advertising in the future — we will update this page and change the
+          date above. Questions: hello@staywildgo.com.
+        </p>
+      </article>
+    </Container>
+  </div>
+</Layout>

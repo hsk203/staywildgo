@@ -1,0 +1,28 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import BackToPrevious from "@components/BackToPrevious.astro";
+import { SITE } from "@consts";
+---
+
+<Layout title="404" description={SITE.DESCRIPTION}>
+  <div class="page-shell flex items-center">
+    <Container>
+      <div
+        class="empty-state mx-auto grid max-w-xl place-items-center gap-5 p-8 text-center sm:p-12"
+      >
+        <h1
+          class="animate text-3xl font-semibold tracking-tight text-[var(--text)]"
+        >
+          404: Page not found
+        </h1>
+        <p class="animate text-[var(--muted)]">
+          The page you are looking for may have been moved or deleted.
+        </p>
+        <span class="animate">
+          <BackToPrevious href="/">Back to home</BackToPrevious>
+        </span>
+      </div>
+    </Container>
+  </div>
+</Layout>

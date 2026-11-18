@@ -1,0 +1,110 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { ABOUT, SITE } from "@consts";
+
+const author = SITE.AUTHOR;
+
+const fieldKit = [
+  {
+    label: "On the water",
+    items: "Baitcaster and spinning setups, a fishing kayak, and a tackle box that never quite closes.",
+  },
+  {
+    label: "At camp",
+    items: "Rooftop tent, a two-burner stove, and a coffee kit that earns its weight every morning.",
+  },
+  {
+    label: "On the trail",
+    items: "Biscuit, a trail dog with strong opinions about squirrels, plus the usual boots, layers, and first-aid kit.",
+  },
+  {
+    label: "How we test",
+    items: "Everything on this site was used outside first — on real trips, in real weather — before it was written about.",
+  },
+];
+---
+
+<Layout title={ABOUT.TITLE} description={ABOUT.DESCRIPTION}>
+  <div class="about-page">
+    <Container wide>
+      <Breadcrumbs items={[{ label: "About" }]} />
+      <figure class="about-cover animate">
+        <img
+          src="/covers/about-hero.jpg"
+          alt="Kayak tour on a mountain lake at sunrise"
+          width="1800"
+          height="760"
+          loading="eager"
+        />
+      </figure>
+
+      <div class="about-layout">
+        <aside class="about-index" aria-label="About page contents">
+          <span>{author.NAME}</span>
+          <nav>
+            <a href="#intro">Who we are</a>
+            <a href="#work">What we do</a>
+            <a href="#kit">In the field</a>
+          </nav>
+        </aside>
+
+        <article class="about-article animate">
+          <section id="intro">
+            <h1>Hi, I'm {author.NAME}.</h1>
+            <p>
+              StayWildGo is a field notebook for people who would rather be
+              outside: bass anglers, kayakers, car campers, and anyone
+              planning a weekend under the sky. I write about what I actually
+              do on the water and on the trail — the rigs that work, the
+              mistakes that cost a morning, and the gear that survives a
+              season of hard use.
+            </p>
+            <p>
+              No studio shoots, no press-release rewrites. If a guide on this
+              site tells you how to do something, I have done it — usually
+              more than once, and at least once badly enough to learn from.
+            </p>
+          </section>
+
+          <section id="work">
+            <h2>What we do</h2>
+            <p>
+              The site is organised into sections, and we fill one section
+              properly before starting the next. Bass fishing comes first:
+              lures, rigs, and reading the water. Then kayaking and camping,
+              then gear, dog-friendly trails, parks, and trip tools.
+            </p>
+            <p>
+              Every guide names its sources in the text — a regulation, a
+              manufacturer's spec sheet, or a day on the water — and says
+              plainly when something is untested or still to be verified.
+              Prices and regulations change; check the date on each article
+              and verify before you buy or book.
+            </p>
+          </section>
+
+          <section id="kit">
+            <h2>In the field</h2>
+            <div class="about-skill-grid not-prose">
+              {
+                fieldKit.map((item) => (
+                  <div>
+                    <strong>{item.label}</strong>
+                    <span>{item.items}</span>
+                  </div>
+                ))
+              }
+            </div>
+          </section>
+
+          <a class="about-contact not-prose" href="/contact">
+            <span>Get in touch</span>
+            <span aria-hidden="true">→</span>
+          </a>
+        </article>
+      </div>
+    </Container>
+  </div>
+</Layout>

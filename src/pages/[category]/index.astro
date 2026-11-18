@@ -1,0 +1,60 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import AuthorSidebar from "@components/AuthorSidebar.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { CATEGORIES } from "@lib/categories";
+import { getCategoryPosts } from "@lib/posts";
+
+export async function getStaticPaths() {
+  return CATEGORIES.map((category) => ({
+    params: { category: category.slug },
+    props: { category },
+  }));
+}
+
+const { category } = Astro.props;
+const posts = await getCategoryPosts(category.slug);
+---
+
+<Layout
+  title={category.label}
+  description={category.description}
+>
+  <div class="archive-page">
+    <Container wide>
+      <Breadcrumbs items={[{ label: category.label }]} />
+
+      <header class="archive-header animate" data-pagefind-ignore>
+        <h1>{category.label}</h1>
+        <p>{category.description}</p>
+        <span>
+          {posts.length} {posts.length === 1 ? "article" : "articles"}
+        </span>
+      </header>
+
+      <div class="reference-content-grid">
+        <div class="archive-years" data-pagefind-ignore>
+          {
+            posts.length > 0 ? (
+              <ul class="reference-post-list">
+                {posts.map((post) => (
+                  <li>
+                    <ArrowCard entry={post} showCover />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div class="reference-empty animate">
+                No articles in this section yet — check back soon.
+              </div>
+            )
+          }
+        </div>
+
+        <AuthorSidebar />
+      </div>
+    </Container>
+  </div>
+</Layout>

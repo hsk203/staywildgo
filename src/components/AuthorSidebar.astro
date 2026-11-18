@@ -1,0 +1,91 @@
+---
+import TagLink from "@components/TagLink.astro";
+import { SITE, FIELD_KIT } from "@consts";
+import { CATEGORIES } from "@lib/categories";
+import { getAllPosts, getCategoryPosts } from "@lib/posts";
+
+const posts = await getAllPosts();
+
+const tagCounts = posts.reduce((counts, post) => {
+  post.data.tags.forEach((tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1));
+  return counts;
+}, new Map<string, number>());
+
+const featuredTags = [...tagCounts.entries()]
+  .sort(([tagA, countA], [tagB, countB]) =>
+    countB === countA ? tagA.localeCompare(tagB, SITE.LOCALE) : countB - countA,
+  )
+  .slice(0, 8);
+
+const sectionCounts = await Promise.all(
+  CATEGORIES.map(async (c) => ({
+    ...c,
+    count: (await getCategoryPosts(c.slug)).length,
+  })),
+);
+
+const visibleSections = sectionCounts.filter((s) => s.count > 0);
+
+const author = SITE.AUTHOR;
+---
+
+<aside class="reference-sidebar animate" aria-label={`About ${author.NAME}`}>
+  <div class="author-card">
+    <div class="author-heading">
+      <span class="author-avatar" aria-hidden="true">{author.INITIALS}</span>
+      <div>
+        <h2>{author.NAME}</h2>
+        <p>{author.ROLE}</p>
+      </div>
+    </div>
+    <p class="author-slogan">{author.SLOGAN}</p>
+    <div class="author-stats">
+      <a href="/tags"><strong>{posts.length}</strong> Articles</a>
+      <a href="/bass-fishing"><strong>{visibleSections.length}</strong> Sections</a>
+      <a href="/tags"><strong>{tagCounts.size}</strong> Tags</a>
+    </div>
+  </div>
+
+  <section class="sidebar-block">
+    <div class="sidebar-block-title">
+      <h3>Sections</h3>
+    </div>
+    <ul class="sidebar-section-list">
+      {
+        visibleSections.map((section) => (
+          <li>
+            <a href={`/${section.slug}`}>
+              <span>{section.label}</span>
+              <span class="tag-count">{section.count}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  {
+    featuredTags.length > 0 && (
+      <section class="sidebar-block">
+        <div class="sidebar-block-title">
+          <h3>Tags</h3>
+          <a href="/tags">All</a>
+        </div>
+        <div class="reference-tags">
+          {featuredTags.map(([tag, count]) => (
+            <TagLink tag={tag} count={count} />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    FIELD_KIT.length > 0 && (
+      <section class="sidebar-block">
+        <h3>In the Field</h3>
+        <p class="sidebar-inline-list">{FIELD_KIT.join(" / ")}</p>
+      </section>
+    )
+  }
+</aside>

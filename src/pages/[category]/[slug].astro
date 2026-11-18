@@ -1,0 +1,206 @@
+---
+import { getCollection, render } from "astro:content";
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import { readingTime } from "@lib/utils";
+import BackToPrevious from "@components/BackToPrevious.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import PostNavigation from "@components/PostNavigation.astro";
+import TableOfContents from "@components/TableOfContents.astro";
+import Giscus from "@components/Giscus.astro";
+import TagLink from "@components/TagLink.astro";
+import { CATEGORIES, categoryBySlug } from "@lib/categories";
+import { getCategoryPosts } from "@lib/posts";
+import type { AnyPost } from "@lib/posts";
+
+export async function getStaticPaths() {
+  const paths: {
+    params: { category: string; slug: string };
+    props: { post: AnyPost };
+  }[] = [];
+  for (const category of CATEGORIES) {
+    const posts = await getCategoryPosts(category.slug);
+    for (const post of posts) {
+      paths.push({
+        params: { category: category.slug, slug: post.id },
+        props: { post },
+      });
+    }
+  }
+  return paths;
+}
+
+const { category: categorySlug } = Astro.params;
+const category = categoryBySlug(categorySlug ?? "");
+const posts = category ? await getCategoryPosts(category.slug) : [];
+const post = Astro.props.post as AnyPost;
+
+const postIndex = posts.findIndex((p) => p.id === post.id);
+// prevPost = newer, nextPost = older (matches the template's naming)
+const prevPost = postIndex > 0 ? posts[postIndex - 1] : undefined;
+const nextPost =
+  postIndex >= 0 && postIndex < posts.length - 1
+    ? posts[postIndex + 1]
+    : undefined;
+
+const { Content, headings } = await render(post);
+
+const faqJsonLd =
+  post.data.faqs && post.data.faqs.length > 0
+    ? {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: post.data.faqs.map((faq) => ({
+          "@type": "Question",
+          name: faq.question,
+          acceptedAnswer: { "@type": "Answer", text: faq.answer },
+        })),
+      }
+    : null;
+
+// Article JSON-LD (every guide) + Product JSON-LD (no offers: prices in
+// prose are ranges and must never be faked into schema).
+const pageUrl = new URL(
+  Astro.url.pathname,
+  Astro.site ?? "https://staywildgo.com",
+).href;
+const articleJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  headline: post.data.title,
+  description: post.data.description,
+  datePublished: post.data.date.toISOString(),
+  dateModified: (post.data.updatedDate ?? post.data.date).toISOString(),
+  author: {
+    "@type": "Organization",
+    name: "StayWildGo",
+    url: "https://staywildgo.com",
+  },
+  publisher: {
+    "@type": "Organization",
+    name: "StayWildGo",
+    url: "https://staywildgo.com",
+  },
+  mainEntityOfPage: pageUrl,
+};
+const productJsonLd =
+  post.data.products && post.data.products.length > 0
+    ? post.data.products.map((p) => ({
+        "@context": "https://schema.org",
+        "@type": "Product",
+        name: p.name,
+        ...(p.brand
+          ? { brand: { "@type": "Brand", name: p.brand } }
+          : {}),
+      }))
+    : null;
+---
+
+<Layout title={post.data.title} description={post.data.description}>
+  <div class="page-shell">
+    <Container>
+      <div class="animate">
+        <Breadcrumbs
+          items={[
+            ...(category
+              ? [{ label: category.label, href: `/${category.slug}` }]
+              : []),
+            { label: post.data.title },
+          ]}
+        />
+      </div>
+      <header class="article-hero">
+        <div
+          class="animate flex flex-wrap items-center gap-2 font-mono text-xs text-[var(--muted)]"
+        >
+          <FormattedDate date={post.data.date} />
+          <span aria-hidden="true">/</span>
+          {post.body && <span>{readingTime(post.body)}</span>}
+          {
+            post.data.sample && (
+              <>
+                <span aria-hidden="true">/</span>
+                <span class="sample-badge">Sample post</span>
+              </>
+            )
+          }
+        </div>
+        <h1 class="animate">
+          {post.data.title}
+        </h1>
+        <p class="animate mt-4 max-w-2xl leading-7 text-[var(--muted)]">
+          {post.data.description}
+        </p>
+        {
+          post.data.tags.length > 0 && (
+            <nav
+              class="animate mt-5 flex flex-wrap gap-2"
+              aria-label="Article tags"
+            >
+              {post.data.tags.map((tag) => (
+                <TagLink tag={tag} />
+              ))}
+            </nav>
+          )
+        }
+      </header>
+      {
+        post.data.cover && (
+          <figure class="article-cover animate">
+            <img
+              src={post.data.cover}
+              alt=""
+              width="1400"
+              height="900"
+              loading="eager"
+            />
+          </figure>
+        )
+      }
+      {headings.length > 0 && <TableOfContents headings={headings} />}
+      <article class="article-shell animate">
+        <Content />
+        {
+          post.data.faqs && post.data.faqs.length > 0 && (
+            <section class="article-faq not-prose" aria-labelledby="faq-title">
+              <h2 id="faq-title">Frequently Asked Questions</h2>
+              <dl>
+                {post.data.faqs.map((faq) => (
+                  <>
+                    <dt>{faq.question}</dt>
+                    <dd>{faq.answer}</dd>
+                  </>
+                ))}
+              </dl>
+            </section>
+          )
+        }
+        <div class="mt-24">
+          <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+        </div>
+        <div class="mt-24">
+          <Giscus />
+        </div>
+      </article>
+      <script
+        type="application/ld+json"
+        set:html={JSON.stringify(articleJsonLd)}
+      />
+      {
+        productJsonLd &&
+          productJsonLd.map((p) => (
+            <script type="application/ld+json" set:html={JSON.stringify(p)} />
+          ))
+      }
+      {
+        faqJsonLd && (
+          <script
+            type="application/ld+json"
+            set:html={JSON.stringify(faqJsonLd)}
+          />
+        )
+      }
+    </Container>
+  </div>
+</Layout>

@@ -1,0 +1,53 @@
+---
+import { SITE } from "@consts";
+
+type Crumb = {
+  label: string;
+  href?: string;
+};
+
+type Props = {
+  items: Crumb[];
+};
+
+const { items } = Astro.props;
+
+// Always start from Home; the current page is the last item (no link).
+const crumbs: Crumb[] = [{ label: "Home", href: "/" }, ...items];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: crumbs.map((crumb, index) => ({
+    "@type": "ListItem",
+    position: index + 1,
+    name: crumb.label,
+    ...(crumb.href
+      ? { item: new URL(crumb.href, Astro.site).toString() }
+      : {}),
+  })),
+};
+---
+
+<nav class="breadcrumbs not-prose" aria-label="Breadcrumb">
+  <ol>
+    {
+      crumbs.map((crumb, index) => (
+        <li>
+          {index > 0 && (
+            <span class="breadcrumb-separator" aria-hidden="true">
+              /
+            </span>
+          )}
+          {crumb.href ? (
+            <a href={crumb.href}>{crumb.label}</a>
+          ) : (
+            <span aria-current="page">{crumb.label}</span>
+          )}
+        </li>
+      ))
+    }
+  </ol>
+</nav>
+
+<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />

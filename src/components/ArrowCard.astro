@@ -1,0 +1,67 @@
+---
+import FormattedDate from "@components/FormattedDate.astro";
+import TagLink from "@components/TagLink.astro";
+import { readingTime } from "@lib/utils";
+import { categoryLabel } from "@lib/categories";
+import { postUrl, type AnyPost } from "@lib/posts";
+
+type Props = {
+  entry: AnyPost;
+  showCover?: boolean;
+};
+
+const { entry, showCover = false } = Astro.props as Props;
+const tags = entry.data.tags ?? [];
+const duration = entry.body ? readingTime(entry.body) : null;
+const url = postUrl(entry);
+---
+
+<article
+  class:list={[
+    "linen-entry not-prose group relative",
+    showCover && entry.data.cover && "linen-entry-with-cover",
+  ]}
+>
+  <div class="min-w-0">
+    <h3 class="line-clamp-2">
+      <a href={url} class="linen-entry-link after:absolute after:inset-0">
+        {entry.data.title}
+      </a>
+    </h3>
+    {
+      tags.length > 0 && (
+        <div class="linen-entry-tags relative z-10">
+          {tags.map((tag) => (
+            <TagLink tag={tag} />
+          ))}
+        </div>
+      )
+    }
+    <p class="linen-entry-description line-clamp-3">
+      {entry.data.description}
+    </p>
+    <div class="linen-entry-meta">
+      <FormattedDate date={entry.data.date} />
+      <span>{categoryLabel(entry.collection)}</span>
+      {duration && <span>{duration}</span>}
+    </div>
+  </div>
+  {
+    showCover && entry.data.cover && (
+      <a
+        class="linen-entry-cover"
+        href={url}
+        tabindex="-1"
+        aria-hidden="true"
+      >
+        <img
+          src={entry.data.cover}
+          alt=""
+          width="520"
+          height="320"
+          loading="lazy"
+        />
+      </a>
+    )
+  }
+</article>

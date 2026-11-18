@@ -1,0 +1,62 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { DISCLOSURE } from "@consts";
+---
+
+<Layout title={DISCLOSURE.TITLE} description={DISCLOSURE.DESCRIPTION}>
+  <div class="page-shell">
+    <Container>
+      <Breadcrumbs items={[{ label: "Affiliate Disclosure" }]} />
+      <article class="article-shell animate">
+        <header class="article-hero">
+          <h1>Affiliate Disclosure</h1>
+          <p class="mt-4 max-w-2xl leading-7 text-[var(--muted)]">
+            Last updated: November 17, 2026. Short version: some links on
+            this site may earn us a commission, at no extra cost to you — and
+            it never decides what we recommend.
+          </p>
+        </header>
+
+        <h2>How the site earns money</h2>
+        <p>
+          StayWildGo is reader-supported. Some product links on this site are
+          affiliate links: if you buy through one, the retailer pays us a
+          small commission. The price you pay does not change. At the time of
+          writing, this site has no affiliate links live yet — this page
+          exists so the rules are clear before the first one appears.
+        </p>
+
+        <h2>What affiliate links do not change</h2>
+        <p>
+          A commission never decides whether a product is recommended, how it
+          is rated, or what we say about it. We write about gear we have
+          actually used, and when something does not hold up, we say so —
+          even if it has an affiliate link. If a product is sent to us for
+          free, we say so in the article.
+        </p>
+
+        <h2>Prices and availability</h2>
+        <p>
+          Prices in our guides are ranges checked at the time of writing.
+          Retailers change prices constantly, so always confirm the current
+          price on the retailer's own page before you buy.
+        </p>
+
+        <h2>Sponsored content</h2>
+        <p>
+          We do not publish paid reviews disguised as editorial. Any
+          sponsored post or paid placement, if we ever accept one, will be
+          clearly labelled as sponsored at the top of the page.
+        </p>
+
+        <h2>Questions</h2>
+        <p>
+          If you ever think a recommendation looks bought rather than earned,
+          tell us: hello@staywildgo.com.
+        </p>
+      </article>
+    </Container>
+  </div>
+</Layout>

@@ -1,0 +1,63 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import AuthorSidebar from "@components/AuthorSidebar.astro";
+import BackToPrevious from "@components/BackToPrevious.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { getAllPosts } from "@lib/posts";
+
+export async function getStaticPaths() {
+  const posts = await getAllPosts();
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
+
+  return tags.map((tag) => ({
+    params: { id: tag },
+    props: {
+      posts: posts.filter((post) => post.data.tags.includes(tag)),
+    },
+  }));
+}
+
+const { id } = Astro.params;
+const { posts } = Astro.props;
+const sortedPosts = posts.sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime(),
+);
+---
+
+<Layout
+  title={`Tag: ${id}`}
+  description={`Articles tagged “${id}” on StayWildGo.`}
+>
+  <div class="archive-page">
+    <Container wide>
+      <Breadcrumbs
+        items={[{ label: "Tags", href: "/tags" }, { label: `#${id}` }]}
+      />
+      <div class="archive-back animate" data-pagefind-ignore>
+        <BackToPrevious href="/tags">All tags</BackToPrevious>
+      </div>
+      <header class="archive-header archive-header-compact animate">
+        <h1>#{id}</h1>
+        <p>
+          {sortedPosts.length}{" "}
+          {sortedPosts.length === 1 ? "article" : "articles"} with this tag.
+        </p>
+      </header>
+
+      <div class="reference-content-grid">
+        <ul class="reference-post-list animate">
+          {
+            sortedPosts.map((post) => (
+              <li>
+                <ArrowCard entry={post} showCover />
+              </li>
+            ))
+          }
+        </ul>
+        <AuthorSidebar />
+      </div>
+    </Container>
+  </div>
+</Layout>

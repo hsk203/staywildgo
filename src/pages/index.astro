@@ -1,0 +1,173 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import ArrowCard from "@components/ArrowCard.astro";
+import AuthorSidebar from "@components/AuthorSidebar.astro";
+import FormattedDate from "@components/FormattedDate.astro";
+import { HOME } from "@consts";
+import { readingTime } from "@lib/utils";
+import { categoryLabel } from "@lib/categories";
+import { getAllPosts, getCategoryPosts, postUrl } from "@lib/posts";
+import { CATEGORIES } from "@lib/categories";
+
+const allPosts = await getAllPosts();
+
+const featuredPost = allPosts[0];
+const highlightedPosts = allPosts.slice(1, 4);
+const latestPosts = allPosts.slice(4, 10);
+
+const pillarCounts = await Promise.all(
+  CATEGORIES.map(async (c) => ({
+    ...c,
+    count: (await getCategoryPosts(c.slug)).length,
+  })),
+);
+---
+
+<Layout title={HOME.TITLE} description={HOME.DESCRIPTION}>
+  <div class="reference-home">
+    <Container wide>
+      {
+        featuredPost ? (
+          <section class="lead-story animate" aria-label="Featured article">
+            <a
+              class="lead-story-image"
+              href={postUrl(featuredPost)}
+              aria-label={`Read ${featuredPost.data.title}`}
+            >
+              {featuredPost.data.cover ? (
+                <img
+                  src={featuredPost.data.cover}
+                  alt=""
+                  width="1400"
+                  height="900"
+                  loading="eager"
+                  fetchpriority="high"
+                />
+              ) : (
+                <span class="image-placeholder">Article cover</span>
+              )}
+            </a>
+
+            <div class="lead-story-copy">
+              <p class="lead-story-kicker">Latest</p>
+              <h1>
+                <a href={postUrl(featuredPost)}>
+                  {featuredPost.data.title}
+                </a>
+              </h1>
+              <p>{featuredPost.data.description}</p>
+              <div class="reference-meta">
+                <FormattedDate date={featuredPost.data.date} />
+                <span>{categoryLabel(featuredPost.collection)}</span>
+                <span>{readingTime(featuredPost.body ?? "")}</span>
+              </div>
+            </div>
+          </section>
+        ) : (
+          <section class="reference-empty">No articles published yet.</section>
+        )
+      }
+
+      <section class="home-pillars animate" aria-labelledby="sections-title">
+        <div class="reference-section-title">
+          <h2 id="sections-title">Browse by Section</h2>
+        </div>
+        <div class="pillar-grid">
+          {
+            pillarCounts
+              .filter((section) => section.count > 0)
+              .map((section) => (
+              <a class="pillar-card" href={`/${section.slug}`}>
+                <span class="pillar-count">
+                  {section.count} {section.count === 1 ? "article" : "articles"}
+                </span>
+                <h3>{section.label}</h3>
+                <p>{section.description}</p>
+              </a>
+            ))
+          }
+        </div>
+      </section>
+
+      {
+        highlightedPosts.length > 0 && (
+          <section
+            class="home-highlights animate"
+            aria-labelledby="highlights-title"
+          >
+            <div class="reference-section-title">
+              <h2 id="highlights-title">Recent Articles</h2>
+              <a href="/tags">Browse all</a>
+            </div>
+
+            <div class="home-highlight-grid">
+              {highlightedPosts.map((post, index) => (
+                <article
+                  class:list={[
+                    "home-highlight-card",
+                    index === 0 && "home-highlight-card-primary",
+                  ]}
+                >
+                  <a
+                    class="home-highlight-image"
+                    href={postUrl(post)}
+                    aria-label={`Read ${post.data.title}`}
+                  >
+                    {post.data.cover ? (
+                      <img
+                        src={post.data.cover}
+                        alt=""
+                        width="960"
+                        height="640"
+                        loading="lazy"
+                      />
+                    ) : (
+                      <span class="image-placeholder">Article cover</span>
+                    )}
+                  </a>
+
+                  <div class="home-highlight-copy">
+                    <div class="home-highlight-meta">
+                      <FormattedDate date={post.data.date} />
+                      <span>{categoryLabel(post.collection)}</span>
+                    </div>
+                    <h3>
+                      <a href={postUrl(post)}>{post.data.title}</a>
+                    </h3>
+                    <p>{post.data.description}</p>
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        )
+      }
+
+      <div class="reference-content-grid">
+        <section class="reference-posts animate" aria-labelledby="latest-title">
+          <div class="reference-section-title">
+            <h2 id="latest-title">More Articles</h2>
+            <a href="/tags">View all</a>
+          </div>
+
+          {
+            latestPosts.length > 0 ? (
+              <ul class="reference-post-list">
+                {latestPosts.map((post) => (
+                  <li>
+                    <ArrowCard entry={post} showCover />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <div class="reference-empty">No more articles yet.</div>
+            )
+          }
+        </section>
+
+        <AuthorSidebar />
+      </div>
+    </Container>
+  </div>
+</Layout>

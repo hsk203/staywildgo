@@ -1,0 +1,45 @@
+---
+import Layout from "@layouts/Layout.astro";
+import Container from "@components/Container.astro";
+import Breadcrumbs from "@components/Breadcrumbs.astro";
+import { SITE, TAGS } from "@consts";
+import { getAllPosts } from "@lib/posts";
+
+const posts = await getAllPosts();
+const tagCounts = posts.reduce((counts, post) => {
+  post.data.tags.forEach((tag) => counts.set(tag, (counts.get(tag) ?? 0) + 1));
+  return counts;
+}, new Map<string, number>());
+
+const tags = [...tagCounts.entries()].sort(([tagA, countA], [tagB, countB]) =>
+  countB === countA ? tagA.localeCompare(tagB, SITE.LOCALE) : countB - countA,
+);
+---
+
+<Layout title={TAGS.TITLE} description={TAGS.DESCRIPTION}>
+  <div class="tags-page">
+    <Container wide>
+      <Breadcrumbs items={[{ label: "Tags" }]} />
+      <header class="archive-header animate" data-pagefind-ignore>
+        <h1>Tags</h1>
+        <p>Browse articles by topic.</p>
+        <span>{tags.length} {tags.length === 1 ? "tag" : "tags"}</span>
+      </header>
+
+      {
+        tags.length > 0 ? (
+          <nav class="tag-directory animate" aria-label="All article tags">
+            {tags.map(([tag, count]) => (
+              <a href={`/tags/${encodeURIComponent(tag)}`}>
+                <span>{tag}</span>
+                <strong>{count}</strong>
+              </a>
+            ))}
+          </nav>
+        ) : (
+          <div class="reference-empty animate">No article tags yet.</div>
+        )
+      }
+    </Container>
+  </div>
+</Layout>

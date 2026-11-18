@@ -1,0 +1,53 @@
+---
+import Container from "@components/Container.astro";
+import { Icon } from "astro-icon/components";
+import { FOOTER_LINKS, SITE } from "@consts";
+---
+
+<footer class="site-footer">
+  <Container wide>
+    <div class="reference-footer">
+      <div>
+        <a href="/" class="brand-link" aria-label={`${SITE.TITLE} home`}>
+          <img
+            src="/brand/staywildgo-horizontal.svg"
+            alt="StayWildGo"
+            class="brand-logo brand-logo-light"
+            width="180"
+            height="45"
+          />
+          <img
+            src="/brand/staywildgo-horizontal-white.svg"
+            alt=""
+            aria-hidden="true"
+            class="brand-logo brand-logo-dark"
+            width="180"
+            height="45"
+          />
+        </a>
+        <p>{SITE.TAGLINE}</p>
+      </div>
+
+      <nav aria-label="Footer navigation">
+        {
+          FOOTER_LINKS.map((link) => (
+            <a
+              href={link.href}
+              target={link.href.startsWith("/rss") ? "_blank" : undefined}
+            >
+              {link.label}
+            </a>
+          ))
+        }
+      </nav>
+
+      <div class="reference-footer-meta">
+        <span>&copy; {new Date().getFullYear()} {SITE.AUTHOR.NAME}</span>
+        <button id="back-to-top" type="button">
+          <span>Back to top</span>
+          <Icon name="tabler:arrow-up" size={15} aria-hidden="true" />
+        </button>
+      </div>
+    </div>
+  </Container>
+</footer>
