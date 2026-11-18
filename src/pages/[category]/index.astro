@@ -18,20 +18,30 @@ const { category } = Astro.props;
 const posts = await getCategoryPosts(category.slug);
 ---
 
-<Layout
-  title={category.label}
-  description={category.description}
->
+<Layout title={category.label} description={category.description}>
   <div class="archive-page">
     <Container wide>
       <Breadcrumbs items={[{ label: category.label }]} />
 
-      <header class="archive-header animate" data-pagefind-ignore>
-        <h1>{category.label}</h1>
-        <p>{category.description}</p>
-        <span>
-          {posts.length} {posts.length === 1 ? "article" : "articles"}
-        </span>
+      <header class="category-hero animate" data-pagefind-ignore>
+        <img
+          class="category-hero-image"
+          src={category.cover}
+          alt={category.coverAlt}
+          width="1600"
+          height="900"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <div class="category-hero-copy">
+          <p class="category-hero-kicker">StayWildGo Field Guide</p>
+          <h1>{category.label}</h1>
+          <p class="category-hero-description">{category.description}</p>
+          <span class="category-article-count">
+            {posts.length}
+            {posts.length === 1 ? "article" : "articles"}
+          </span>
+        </div>
       </header>
 
       <div class="reference-content-grid">

@@ -49,7 +49,7 @@ export const FIELD_KIT: string[] = [
 
 /** Page titles and descriptions, used for <title> and SEO. */
 export const HOME: Metadata = {
-  TITLE: "Home",
+  TITLE: "Outdoor Field Notes & Gear Guides",
   DESCRIPTION:
     "Field notes on bass fishing, kayaking, camping, and the gear that holds up — written from the water, the woods, and the trail.",
 };

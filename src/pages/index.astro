@@ -50,11 +50,9 @@ const pillarCounts = await Promise.all(
             </a>
 
             <div class="lead-story-copy">
-              <p class="lead-story-kicker">Latest</p>
+              <p class="lead-story-kicker">Latest field note</p>
               <h1>
-                <a href={postUrl(featuredPost)}>
-                  {featuredPost.data.title}
-                </a>
+                <a href={postUrl(featuredPost)}>{featuredPost.data.title}</a>
               </h1>
               <p>{featuredPost.data.description}</p>
               <div class="reference-meta">
@@ -62,6 +60,9 @@ const pillarCounts = await Promise.all(
                 <span>{categoryLabel(featuredPost.collection)}</span>
                 <span>{readingTime(featuredPost.body ?? "")}</span>
               </div>
+              <a class="lead-story-read" href={postUrl(featuredPost)}>
+                Read the field note <span aria-hidden="true">→</span>
+              </a>
             </div>
           </section>
         ) : (
@@ -78,14 +79,25 @@ const pillarCounts = await Promise.all(
             pillarCounts
               .filter((section) => section.count > 0)
               .map((section) => (
-              <a class="pillar-card" href={`/${section.slug}`}>
-                <span class="pillar-count">
-                  {section.count} {section.count === 1 ? "article" : "articles"}
-                </span>
-                <h3>{section.label}</h3>
-                <p>{section.description}</p>
-              </a>
-            ))
+                <a class="pillar-card" href={`/${section.slug}`}>
+                  <img
+                    class="pillar-card-image"
+                    src={section.cover}
+                    alt=""
+                    width="1600"
+                    height="900"
+                    loading="lazy"
+                  />
+                  <div class="pillar-card-copy">
+                    <span class="pillar-count">
+                      {section.count}{" "}
+                      {section.count === 1 ? "article" : "articles"}
+                    </span>
+                    <h3>{section.label}</h3>
+                    <p>{section.description}</p>
+                  </div>
+                </a>
+              ))
           }
         </div>
       </section>

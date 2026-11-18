@@ -1,31 +1,41 @@
 ---
 import TableOfContentsHeading from "./TableOfContentsHeading.astro";
 
-// https://kld.dev/building-table-of-contents/
-const { headings } = Astro.props;
-const toc = buildToc(headings);
-
 export interface Heading {
   depth: number;
   slug: string;
   text: string;
+  subheadings?: Heading[];
 }
 
-function buildToc(headings: Heading[]) {
+type FlatHeading = Pick<Heading, "depth" | "slug" | "text">;
+
+const { headings } = Astro.props as { headings: FlatHeading[] };
+const toc = buildToc(headings);
+
+function buildToc(headings: FlatHeading[]): Heading[] {
   const toc: Heading[] = [];
-  const parentHeadings = new Map();
-  headings.forEach((h) => {
-    if (h.depth < 2) return; // body H1s (if any) are not TOC entries
-    const heading = { ...h, subheadings: [] };
+  const parentHeadings = new Map<number, Heading>();
+
+  for (const item of headings) {
+    if (item.depth < 2) continue;
+
+    const heading: Heading = { ...item, subheadings: [] };
+    for (const depth of parentHeadings.keys()) {
+      if (depth >= heading.depth) parentHeadings.delete(depth);
+    }
     parentHeadings.set(heading.depth, heading);
+
     if (heading.depth === 2) {
       toc.push(heading);
-    } else {
-      const parent = parentHeadings.get(heading.depth - 1);
-      if (parent) parent.subheadings.push(heading);
-      else toc.push(heading); // orphaned subheading: show at top level
+      continue;
     }
-  });
+
+    const parent = parentHeadings.get(heading.depth - 1);
+    if (parent) parent.subheadings?.push(heading);
+    else toc.push(heading);
+  }
+
   return toc;
 }
 ---
@@ -35,9 +45,16 @@ function buildToc(headings: Heading[]) {
     class="cursor-pointer rounded-xl px-5 py-4 font-medium text-[var(--text)] transition-colors hover:bg-[var(--surface-muted)]"
     >Contents</summary
   >
-  <nav>
-    <ul class="py-3">
-      {toc.map((heading) => <TableOfContentsHeading heading={heading} />)}
+  <nav aria-label="Table of contents">
+    <ul class="toc-list">
+      {
+        toc.map((heading, index) => (
+          <TableOfContentsHeading
+            heading={heading}
+            number={String(index + 1).padStart(2, "0")}
+          />
+        ))
+      }
     </ul>
   </nav>
 </details>
