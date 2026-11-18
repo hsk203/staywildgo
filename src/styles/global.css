@@ -2942,6 +2942,30 @@ article.article-shell blockquote {
    Below the cover image the body splits into a narrow sticky TOC on the
    left and the article on the right. On mobile it stays a single column
    with the TOC as a collapsible panel above the article. */
+.article-body-wrap {
+  width: 100%;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .article-body-wrap {
+    padding-inline: 1.75rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .article-body-wrap {
+    max-width: 68rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .article-body-wrap {
+    max-width: 87rem;
+  }
+}
+
 .article-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
@@ -3080,4 +3104,53 @@ article.article-shell blockquote {
     background: var(--border);
     border-radius: 4px;
   }
+}
+
+/* Wide screens: keep the article exactly centered under the cover image
+   (48rem, same as the header) and put the TOC in the left margin instead
+   of letting it push the article to the right. */
+@media (min-width: 1280px) {
+  .article-body {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 48rem) minmax(0, 1fr);
+    gap: 0 2.5rem;
+  }
+
+  .article-toc {
+    grid-column: 1;
+    justify-self: end;
+    width: min(16rem, 100%);
+  }
+
+  .article-body .article-shell {
+    grid-column: 2;
+  }
+}
+
+/* Flat tag chips everywhere (no pill background/border) — overrides the
+   Manus listing rule (.linen-entry .sphere-tag-link) and the reference
+   tag rule, which both re-add a pill box. Unlayered + last in file so it
+   wins over the layered base rules and the Manus overrides. */
+.linen-entry .sphere-tag-link,
+.reference-tags .sphere-tag-link {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  padding: 0;
+  color: var(--brand-forest);
+  font-weight: 600;
+}
+
+.linen-entry .sphere-tag-link > span:first-child,
+.reference-tags .sphere-tag-link > span:first-child {
+  color: var(--brand-river-ink);
+  font-weight: 700;
+}
+
+.linen-entry .sphere-tag-link:hover,
+.reference-tags .sphere-tag-link:hover {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text);
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
