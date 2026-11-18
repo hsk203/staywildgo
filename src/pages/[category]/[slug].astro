@@ -158,31 +158,46 @@ const productJsonLd =
           </figure>
         )
       }
-      {headings.length > 0 && <TableOfContents headings={headings} />}
-      <article class="article-shell animate">
-        <Content />
+    </Container>
+    <Container wide>
+      <div class="article-body">
         {
-          post.data.faqs && post.data.faqs.length > 0 && (
-            <section class="article-faq not-prose" aria-labelledby="faq-title">
-              <h2 id="faq-title">Frequently Asked Questions</h2>
-              <dl>
-                {post.data.faqs.map((faq) => (
-                  <>
-                    <dt>{faq.question}</dt>
-                    <dd>{faq.answer}</dd>
-                  </>
-                ))}
-              </dl>
-            </section>
+          headings.length > 0 && (
+            <aside class="article-toc" aria-label="On this page">
+              <TableOfContents headings={headings} />
+            </aside>
           )
         }
-        <div class="mt-24">
-          <PostNavigation prevPost={prevPost} nextPost={nextPost} />
-        </div>
-        <div class="mt-24">
-          <Giscus />
-        </div>
-      </article>
+        <article class="article-shell animate">
+          <Content />
+          {
+            post.data.faqs && post.data.faqs.length > 0 && (
+              <section
+                class="article-faq not-prose"
+                aria-labelledby="faq-title"
+              >
+                <h2 id="faq-title">Frequently Asked Questions</h2>
+                <dl>
+                  {post.data.faqs.map((faq) => (
+                    <>
+                      <dt>{faq.question}</dt>
+                      <dd>{faq.answer}</dd>
+                    </>
+                  ))}
+                </dl>
+              </section>
+            )
+          }
+          <div class="mt-24">
+            <PostNavigation prevPost={prevPost} nextPost={nextPost} />
+          </div>
+          <div class="mt-24">
+            <Giscus />
+          </div>
+        </article>
+      </div>
+    </Container>
+    <Container>
       <script
         type="application/ld+json"
         set:html={JSON.stringify(articleJsonLd)}
@@ -202,5 +217,47 @@ const productJsonLd =
         )
       }
     </Container>
+    <script>
+      // Sticky TOC scroll-spy: highlight the section the reader is in.
+      (function () {
+        const toc = document.querySelector(".article-toc");
+        if (!toc) return;
+        const links = Array.from(
+          toc.querySelectorAll('.toc-list a[href^="#"]'),
+        ) as HTMLAnchorElement[];
+        if (!links.length) return;
+        const headings = links
+          .map((a) =>
+            document.getElementById(
+              decodeURIComponent(a.getAttribute("href")!.slice(1)),
+            ),
+          )
+          .filter((el): el is HTMLElement => !!el);
+        if (!headings.length) return;
+
+        const setActive = (id: string) => {
+          for (const a of links) {
+            const on = a.getAttribute("href")!.slice(1) === id;
+            a.classList.toggle("is-active", on);
+            a.closest("li")?.classList.toggle("is-active", on);
+          }
+        };
+
+        // A heading counts as current once it crosses the top band of
+        // the viewport; the last one to cross wins.
+        let current = headings[0].id;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) current = entry.target.id;
+            }
+            setActive(current);
+          },
+          { rootMargin: "-96px 0px -72% 0px" },
+        );
+        for (const h of headings) observer.observe(h);
+        setActive(current);
+      })();
+    </script>
   </div>
 </Layout>
