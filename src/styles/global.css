@@ -111,7 +111,10 @@ html.dark {
   }
 
   body {
-    @apply flex min-h-[100dvh] flex-col overflow-x-hidden font-sans antialiased;
+    @apply flex min-h-[100dvh] flex-col font-sans antialiased;
+    /* overflow-x: clip (not hidden) so position: sticky descendants keep
+       working — overflow-x: hidden on body breaks sticky in Chrome. */
+    overflow-x: clip;
     background: var(--page-bg);
     color: var(--muted);
   }

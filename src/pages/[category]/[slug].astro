@@ -243,17 +243,34 @@ const productJsonLd =
           }
         };
 
-        // A heading counts as current once it crosses the top band of
-        // the viewport; the last one to cross wins.
+        // A heading counts as current once it reaches the top band of
+        // the viewport; among the headings in the band, the one nearest
+        // the top wins. The highlight stays put until the next heading
+        // actually arrives at the top (no early switching).
         let current = headings[0].id;
+        const inBand = new Set<string>();
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
-              if (entry.isIntersecting) current = entry.target.id;
+              if (entry.isIntersecting) inBand.add(entry.target.id);
+              else inBand.delete(entry.target.id);
             }
-            setActive(current);
+            let best: string | null = null;
+            let bestTop = Infinity;
+            for (const h of headings) {
+              if (!inBand.has(h.id)) continue;
+              const top = h.getBoundingClientRect().top;
+              if (top < bestTop) {
+                bestTop = top;
+                best = h.id;
+              }
+            }
+            if (best) {
+              current = best;
+              setActive(current);
+            }
           },
-          { rootMargin: "-96px 0px -72% 0px" },
+          { rootMargin: "-96px 0px -85% 0px" },
         );
         for (const h of headings) observer.observe(h);
         setActive(current);
