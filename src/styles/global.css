@@ -2988,7 +2988,7 @@ article.article-shell blockquote {
 .article-toc .toc-list {
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
+  gap: 0.1rem;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -3000,11 +3000,11 @@ article.article-shell blockquote {
 
 .article-toc .toc-item a {
   display: block;
-  padding: 0.3rem 0 0.3rem 0.75rem;
+  padding: 0.28rem 0 0.28rem 0.75rem;
   border-left: 2px solid var(--border);
   color: var(--muted);
   font-size: 0.88rem;
-  line-height: 1.45;
+  line-height: 1.4;
   text-decoration: none;
   transition:
     color 160ms ease,
@@ -3023,14 +3023,21 @@ article.article-shell blockquote {
 }
 
 .article-toc .toc-sublist {
-  margin: 0.1rem 0 0.25rem;
+  margin: 0.05rem 0 0.2rem;
   padding: 0;
   list-style: none;
 }
 
 .article-toc .toc-sublist .toc-item a {
-  padding-left: 1.5rem;
-  font-size: 0.82rem;
+  padding-left: 1.25rem;
+  font-size: 0.8rem;
+  line-height: 1.35;
+  /* Long product names stay readable but never balloon the TOC:
+     at most 3 lines, then an ellipsis. */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .article-toc .toc-number {
@@ -3039,8 +3046,8 @@ article.article-shell blockquote {
 
 @media (min-width: 1024px) {
   .article-body {
-    grid-template-columns: 15rem minmax(0, 1fr);
-    gap: 2.75rem;
+    grid-template-columns: 17rem minmax(0, 1fr);
+    gap: 2.5rem;
   }
 
   .article-toc {
@@ -3049,5 +3056,19 @@ article.article-shell blockquote {
     max-height: calc(100vh - 8rem);
     overflow-y: auto;
     scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+
+  .article-toc::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  .article-toc::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .article-toc::-webkit-scrollbar-thumb {
+    background: var(--border);
+    border-radius: 4px;
   }
 }
