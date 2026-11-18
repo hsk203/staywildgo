@@ -2994,8 +2994,15 @@ article.article-shell blockquote {
   list-style: none;
 }
 
+/* The base theme lays TOC items out as a grid with a number-badge column.
+   In the sidebar the numbers are hidden, so flatten to a plain block list —
+   otherwise the empty number column eats ~2–3rem and the text gets
+   squeezed into a narrow strip. */
 .article-toc .toc-item {
+  display: block;
   margin: 0;
+  padding: 0;
+  border-bottom: 0;
 }
 
 .article-toc .toc-item a {
@@ -3023,21 +3030,23 @@ article.article-shell blockquote {
 }
 
 .article-toc .toc-sublist {
+  display: block;
   margin: 0.05rem 0 0.2rem;
-  padding: 0;
+  padding: 0 0 0 0.75rem;
+  border-left: 0;
   list-style: none;
 }
 
+.article-toc .toc-item-sub {
+  display: block;
+  padding: 0;
+  border-bottom: 0;
+}
+
 .article-toc .toc-sublist .toc-item a {
-  padding-left: 1.25rem;
-  font-size: 0.8rem;
-  line-height: 1.35;
-  /* Long product names stay readable but never balloon the TOC:
-     at most 3 lines, then an ellipsis. */
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  padding-left: 1rem;
+  font-size: 0.82rem;
+  line-height: 1.4;
 }
 
 .article-toc .toc-number {
