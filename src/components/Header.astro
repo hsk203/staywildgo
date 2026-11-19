@@ -36,7 +36,10 @@ const isActive = (href: string) =>
           />
         </a>
 
-        <nav class="hidden items-center gap-1 lg:flex" aria-label="Main navigation">
+        <nav
+          class="hidden items-center gap-1 lg:flex"
+          aria-label="Main navigation"
+        >
           {
             items.map((item) => (
               <a
@@ -96,7 +99,10 @@ const isActive = (href: string) =>
   </div>
 
   <div id="mobile-menu" class="mobile-menu lg:hidden" aria-hidden="true">
-    <nav class="flex flex-col items-center gap-2" aria-label="Mobile navigation">
+    <nav
+      class="flex flex-col items-center gap-2"
+      aria-label="Mobile navigation"
+    >
       <a
         href="/"
         data-menu-link
@@ -119,7 +125,7 @@ const isActive = (href: string) =>
       }
       <a href="/about" data-menu-link class="sphere-nav-link">About</a>
       <a href="/contact" data-menu-link class="sphere-nav-link">Contact</a>
-      <a href="/tags" data-menu-link class="sphere-nav-link">Tags</a>
+      <a href="/tags" data-menu-link class="sphere-nav-link">Topics</a>
       <a href="/rss.xml" data-menu-link class="sphere-nav-link">RSS</a>
     </nav>
   </div>
@@ -142,7 +148,10 @@ const isActive = (href: string) =>
     toggle.addEventListener("click", () => {
       const open = toggle.getAttribute("aria-expanded") === "true";
       toggle.setAttribute("aria-expanded", String(!open));
-      toggle.setAttribute("aria-label", open ? "Open navigation menu" : "Close navigation menu");
+      toggle.setAttribute(
+        "aria-label",
+        open ? "Open navigation menu" : "Close navigation menu",
+      );
       toggle.setAttribute("title", open ? "Menu" : "Close");
       menu.setAttribute("aria-hidden", String(open));
       menu.classList.toggle("is-open", !open);

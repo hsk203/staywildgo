@@ -27,22 +27,23 @@ const sortedPosts = posts.sort(
 ---
 
 <Layout
-  title={`Tag: ${id}`}
-  description={`Articles tagged “${id}” on StayWildGo.`}
+  title={`Topic: ${id}`}
+  description={`StayWildGo field notes about ${id}.`}
 >
   <div class="archive-page">
     <Container wide>
       <Breadcrumbs
-        items={[{ label: "Tags", href: "/tags" }, { label: `#${id}` }]}
+        items={[{ label: "Topics", href: "/tags" }, { label: `#${id}` }]}
       />
       <div class="archive-back animate" data-pagefind-ignore>
-        <BackToPrevious href="/tags">All tags</BackToPrevious>
+        <BackToPrevious href="/tags">All topics</BackToPrevious>
       </div>
       <header class="archive-header archive-header-compact animate">
         <h1>#{id}</h1>
         <p>
           {sortedPosts.length}{" "}
-          {sortedPosts.length === 1 ? "article" : "articles"} with this tag.
+          {sortedPosts.length === 1 ? "field note" : "field notes"}
+          about this topic.
         </p>
       </header>
 

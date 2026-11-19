@@ -9,7 +9,7 @@ export const SITE: Site = {
   // Brand word shown in the header and footer
   WORDMARK: "StayWildGo",
   DESCRIPTION:
-    "Field notes on bass fishing, kayaking, camping, and the gear that holds up — written from the water, the woods, and the trail.",
+    "Outdoor field notes for better days outside—starting with practical bass-fishing guides, honest gear notes, and lessons from real days on the water, in camp, and on the trail.",
   TAGLINE: "Stay wild. Go further.",
   // Affects <html lang> and date formatting
   LOCALE: "en-US",
@@ -19,7 +19,7 @@ export const SITE: Site = {
     INITIALS: "JW",
     ROLE: "Outdoor writer & weekend angler",
     SLOGAN:
-      "Field notes from the water, the woods, and the trail. Everything here was tried outside first.",
+      "Field notes from the water, woods, and trail—practical advice shaped by real use, not showroom talk.",
   },
 };
 
@@ -35,7 +35,7 @@ export const FOOTER_LINKS: NavLink[] = [
   { href: "/privacy", label: "Privacy" },
   { href: "/disclosure", label: "Affiliate Disclosure" },
   { href: "/contact", label: "Contact" },
-  { href: "/tags", label: "Tags" },
+  { href: "/tags", label: "Topics" },
   { href: "/rss.xml", label: "RSS" },
 ];
 
@@ -49,20 +49,21 @@ export const FIELD_KIT: string[] = [
 
 /** Page titles and descriptions, used for <title> and SEO. */
 export const HOME: Metadata = {
-  TITLE: "Outdoor Field Notes & Gear Guides",
+  TITLE: "Outdoor Field Notes & Bass Fishing Guides",
   DESCRIPTION:
-    "Field notes on bass fishing, kayaking, camping, and the gear that holds up — written from the water, the woods, and the trail.",
+    "Practical bass-fishing guides, honest gear notes, and field-tested advice for better days outside. StayWildGo starts on the water, with more outdoor field notes on the way.",
 };
 
 export const TAGS: Metadata = {
-  TITLE: "Tags",
-  DESCRIPTION: "Browse articles by topic.",
+  TITLE: "Explore Topics",
+  DESCRIPTION:
+    "Browse StayWildGo field notes by fishing technique, outdoor gear, and trip-planning topic.",
 };
 
 export const ABOUT: Metadata = {
   TITLE: "About",
   DESCRIPTION:
-    "About StayWildGo, Jake Wilder, and how every guide on this site is tested outside first.",
+    "Meet Jake Wilder and learn how firsthand experience, named sources, and honest updates shape StayWildGo's outdoor guides.",
 };
 
 export const PRIVACY: Metadata = {
@@ -80,5 +81,5 @@ export const DISCLOSURE: Metadata = {
 export const CONTACT: Metadata = {
   TITLE: "Contact",
   DESCRIPTION:
-    "Get in touch with StayWildGo — corrections, route tips, gear questions, and partnership enquiries.",
+    "Send StayWildGo a correction, a fishing or trail tip, a gear question, or a field-testing partnership inquiry.",
 };

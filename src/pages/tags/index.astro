@@ -19,16 +19,18 @@ const tags = [...tagCounts.entries()].sort(([tagA, countA], [tagB, countB]) =>
 <Layout title={TAGS.TITLE} description={TAGS.DESCRIPTION}>
   <div class="tags-page">
     <Container wide>
-      <Breadcrumbs items={[{ label: "Tags" }]} />
+      <Breadcrumbs items={[{ label: "Topics" }]} />
       <header class="archive-header animate" data-pagefind-ignore>
-        <h1>Tags</h1>
-        <p>Browse articles by topic.</p>
-        <span>{tags.length} {tags.length === 1 ? "tag" : "tags"}</span>
+        <h1>Explore topics</h1>
+        <p>
+          Browse field notes by activity, technique, gear, and trip planning.
+        </p>
+        <span>{tags.length} {tags.length === 1 ? "topic" : "topics"}</span>
       </header>
 
       {
         tags.length > 0 ? (
-          <nav class="tag-directory animate" aria-label="All article tags">
+          <nav class="tag-directory animate" aria-label="All article topics">
             {tags.map(([tag, count]) => (
               <a href={`/tags/${encodeURIComponent(tag)}`}>
                 <span>{tag}</span>
@@ -37,7 +39,7 @@ const tags = [...tagCounts.entries()].sort(([tagA, countA], [tagB, countB]) =>
             ))}
           </nav>
         ) : (
-          <div class="reference-empty animate">No article tags yet.</div>
+          <div class="reference-empty animate">No topics yet.</div>
         )
       }
     </Container>

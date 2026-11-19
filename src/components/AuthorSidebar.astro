@@ -40,9 +40,11 @@ const author = SITE.AUTHOR;
     </div>
     <p class="author-slogan">{author.SLOGAN}</p>
     <div class="author-stats">
-      <a href="/tags"><strong>{posts.length}</strong> Articles</a>
-      <a href="/bass-fishing"><strong>{visibleSections.length}</strong> Sections</a>
-      <a href="/tags"><strong>{tagCounts.size}</strong> Tags</a>
+      <span><strong>{posts.length}</strong> Articles</span>
+      <a href="/bass-fishing"
+        ><strong>{visibleSections.length}</strong> Sections</a
+      >
+      <a href="/tags"><strong>{tagCounts.size}</strong> Topics</a>
     </div>
   </div>
 
@@ -68,8 +70,8 @@ const author = SITE.AUTHOR;
     featuredTags.length > 0 && (
       <section class="sidebar-block">
         <div class="sidebar-block-title">
-          <h3>Tags</h3>
-          <a href="/tags">All</a>
+          <h3>Popular topics</h3>
+          <a href="/tags">All topics</a>
         </div>
         <div class="reference-tags">
           {featuredTags.map(([tag, count]) => (

@@ -1,6 +1,6 @@
 /**
  * StayWildGo sections (flat subdirectories, no subdomains).
- * The collection name in src/content/<slug>/ matches the URL segment.
+ * The collection name in src/content/<slug> matches the URL segment.
  * Bass fishing leads: it is the first directory to be filled (25-30 posts).
  */
 export type CategorySlug =
@@ -27,7 +27,7 @@ export const CATEGORIES: Category[] = [
     label: "Bass Fishing",
     shortLabel: "Bass Fishing",
     description:
-      "Lures, rigs, and hard-won lessons from the water — tested on real mornings, not in a studio.",
+      "Practical lures, rigs, and bass-fishing lessons from real days on the water—what worked, what changed, and what to try next.",
     cover: "/covers/category-bass-fishing.webp",
     coverAlt: "Angler casting a baitcasting rod toward a quiet lake at dawn",
   },
@@ -36,7 +36,7 @@ export const CATEGORIES: Category[] = [
     label: "Kayaking",
     shortLabel: "Kayaking",
     description:
-      "Fishing kayaks, paddling routes, and the on-the-water setup that actually works.",
+      "Fishing-kayak setups, paddling routes, and the gear that earns its place on the water.",
     cover: "/covers/category-kayaking.webp",
     coverAlt: "Kayaker paddling a touring kayak on a calm lake",
   },
@@ -45,7 +45,7 @@ export const CATEGORIES: Category[] = [
     label: "Camping",
     shortLabel: "Camping",
     description:
-      "Car camping, dispersed sites, and camp craft that holds up when the weather turns.",
+      "Car-camping setups, dispersed campsites, and practical camp skills for when the weather or plans change.",
     cover: "/covers/category-camping.webp",
     coverAlt: "Olive tent at a tidy lakeside pine-forest campsite",
   },
@@ -54,7 +54,7 @@ export const CATEGORIES: Category[] = [
     label: "Gear",
     shortLabel: "Gear",
     description:
-      "Outdoor gear, compared honestly after real use — what lasts, what breaks, what is worth the money.",
+      "Honest outdoor-gear comparisons after real use: what lasts, what breaks, and what is worth carrying.",
     cover: "/covers/category-gear.webp",
     coverAlt: "Outdoor hiking gear arranged on a pale wooden workbench",
   },
@@ -63,7 +63,7 @@ export const CATEGORIES: Category[] = [
     label: "Dog Trails",
     shortLabel: "Dog Trails",
     description:
-      "Hiking and camping with your trail dog: rules, packing, and keeping them safe out there.",
+      "Dog-friendly hikes and camps, with trail rules, packing advice, and safety tips for your four-legged trail partner.",
     cover: "/covers/category-dog-trails.webp",
     coverAlt: "Dog hiking on a wooded trail beside its owner",
   },
@@ -72,7 +72,7 @@ export const CATEGORIES: Category[] = [
     label: "Parks",
     shortLabel: "Parks",
     description:
-      "National parks, road trips, and weekend routes — where to go and when to go.",
+      "National parks, road trips, and weekend routes: where to go, when to visit, and what to plan ahead.",
     cover: "/covers/category-parks.webp",
     coverAlt:
       "Scenic national-park mountains, forest and lake with a hiking trail",
@@ -82,7 +82,7 @@ export const CATEGORIES: Category[] = [
     label: "Tools",
     shortLabel: "Tools",
     description:
-      "Packing lists, checklists, and trip planners you can use before you leave the driveway.",
+      "Simple packing lists, checklists, and trip planners to help you get outside prepared.",
     cover: "/covers/category-tools.webp",
     coverAlt: "Notebook, map and compass arranged for outdoor trip planning",
   },

@@ -50,7 +50,9 @@ const pillarCounts = await Promise.all(
             </a>
 
             <div class="lead-story-copy">
-              <p class="lead-story-kicker">Latest field note</p>
+              <p class="lead-story-kicker">
+                Field notes for better days outside
+              </p>
               <h1>
                 <a href={postUrl(featuredPost)}>{featuredPost.data.title}</a>
               </h1>
@@ -61,18 +63,20 @@ const pillarCounts = await Promise.all(
                 <span>{readingTime(featuredPost.body ?? "")}</span>
               </div>
               <a class="lead-story-read" href={postUrl(featuredPost)}>
-                Read the field note <span aria-hidden="true">→</span>
+                Read the latest guide <span aria-hidden="true">→</span>
               </a>
             </div>
           </section>
         ) : (
-          <section class="reference-empty">No articles published yet.</section>
+          <section class="reference-empty">
+            The first field note is on its way.
+          </section>
         )
       }
 
       <section class="home-pillars animate" aria-labelledby="sections-title">
         <div class="reference-section-title">
-          <h2 id="sections-title">Browse by Section</h2>
+          <h2 id="sections-title">Explore the outdoors</h2>
         </div>
         <div class="pillar-grid">
           {
@@ -109,8 +113,8 @@ const pillarCounts = await Promise.all(
             aria-labelledby="highlights-title"
           >
             <div class="reference-section-title">
-              <h2 id="highlights-title">Recent Articles</h2>
-              <a href="/tags">Browse all</a>
+              <h2 id="highlights-title">Fresh from the field</h2>
+              <a href="/tags">Browse topics</a>
             </div>
 
             <div class="home-highlight-grid">
@@ -159,8 +163,8 @@ const pillarCounts = await Promise.all(
       <div class="reference-content-grid">
         <section class="reference-posts animate" aria-labelledby="latest-title">
           <div class="reference-section-title">
-            <h2 id="latest-title">More Articles</h2>
-            <a href="/tags">View all</a>
+            <h2 id="latest-title">More field notes</h2>
+            <a href="/tags">Explore topics</a>
           </div>
 
           {
@@ -173,7 +177,9 @@ const pillarCounts = await Promise.all(
                 ))}
               </ul>
             ) : (
-              <div class="reference-empty">No more articles yet.</div>
+              <div class="reference-empty animate">
+                More field notes are in the works.
+              </div>
             )
           }
         </section>
