@@ -256,8 +256,13 @@ html.dark {
     @apply block h-9 w-auto;
   }
 
+  /* New GPT logo (2026-11-19) is a raster with a white background baked
+     in, so in dark mode / footer it shows as a white rounded chip. */
   .brand-logo-dark {
     display: none;
+    background: #ffffff;
+    border-radius: 8px;
+    padding: 3px 8px;
   }
 
   html.dark .brand-logo-light {
