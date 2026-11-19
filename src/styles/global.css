@@ -91,20 +91,18 @@ html.dark {
   }
 
   html {
-    /* Base font 16px -> 18px (2026-11-19): whole-site type scale-up. */
-    font-size: 112.5%;
     overflow-y: auto;
-    scroll-padding-top: 7rem;
+    scroll-padding-top: 6rem;
     background: var(--page-bg);
   }
 
-  /* Keep anchor/scroll targets clear of the fixed 5rem header. */
+  /* Keep anchor/scroll targets clear of the fixed 4rem header. */
   [id],
   .reference-section-title,
   .sidebar-block,
   .home-pillars,
   .home-highlights {
-    scroll-margin-top: 7rem;
+    scroll-margin-top: 6rem;
   }
 
   html,
@@ -255,7 +253,7 @@ html.dark {
 
   /* Header/footer logo: color version in light mode, white version in dark mode. */
   .brand-logo {
-    @apply block h-11 w-auto;
+    @apply block h-9 w-auto;
   }
 
   /* New GPT logo (2026-11-19) is a raster with a white background baked
@@ -527,7 +525,7 @@ html[data-theme="system"] [data-theme-icon="system"] {
   }
 
   .site-header-inner {
-    @apply h-20 w-full px-5 sm:px-8;
+    @apply h-16 w-full px-5 sm:px-8;
   }
 
   .site-nav-shell,
@@ -541,7 +539,7 @@ html[data-theme="system"] [data-theme-icon="system"] {
   }
 
   .sphere-nav-link {
-    @apply px-3 text-base font-medium;
+    @apply px-3 text-[15px] font-medium;
     color: var(--muted);
     background: transparent;
     border-radius: 0;
@@ -559,7 +557,7 @@ html[data-theme="system"] [data-theme-icon="system"] {
   }
 
   .reference-home {
-    @apply pt-20 pb-12;
+    @apply pt-16 pb-12;
     background: var(--surface);
   }
 
@@ -844,7 +842,7 @@ html[data-theme="system"] [data-theme-icon="system"] {
   }
 
   .about-page {
-    @apply pt-20 pb-24;
+    @apply pt-16 pb-24;
     background: var(--surface);
   }
 
@@ -1024,7 +1022,7 @@ html[data-theme="system"] [data-theme-icon="system"] {
   .archive-page,
   .project-index-page,
   .tags-page {
-    @apply min-h-[76dvh] pt-20 pb-24;
+    @apply min-h-[76dvh] pt-16 pb-24;
     background: var(--surface);
   }
 
@@ -1474,7 +1472,7 @@ html.dark {
   }
 
   .linen-home {
-    @apply pt-20 pb-24;
+    @apply pt-16 pb-24;
   }
 
   .linen-masthead {
